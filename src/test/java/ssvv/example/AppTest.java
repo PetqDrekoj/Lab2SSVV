@@ -60,6 +60,7 @@ public class AppTest
         validatorTema = new TemaValidator();
         repositoryTema  = new TemaXMLRepo(filenameTema);
         service = new Service(repositoryStudent,validatorStudent,repositoryTema,validatorTema,repositoryNote,validatorNota);
+
         Student student = new Student("id1","id1",-1,"id1@gmail.com");
         try {
             service.addStudent(student);
@@ -68,5 +69,118 @@ public class AppTest
         catch (ValidationException e){
             assert true;
         }
+    }
+
+    @Test
+    public void ec3_test()
+    {
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        validatorStudent = new StudentValidator();
+        repositoryStudent = new StudentXMLRepo(filenameStudent);
+        validatorNota = new NotaValidator(repositoryStudent,repositoryTema);
+        repositoryNote = new NotaXMLRepo(filenameNota);
+        validatorTema = new TemaValidator();
+        repositoryTema  = new TemaXMLRepo(filenameTema);
+        service = new Service(repositoryStudent,validatorStudent,repositoryTema,validatorTema,repositoryNote,validatorNota);
+
+        Student student = new Student("1","Ion",1,"ion@yahoo.com");
+        service.addStudent(student);
+        assert(service.findStudent("1") != null);
+        service.deleteStudent("1");
+    }
+
+    @Test
+    public void ec4_test()
+    {
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        validatorStudent = new StudentValidator();
+        repositoryStudent = new StudentXMLRepo(filenameStudent);
+        validatorNota = new NotaValidator(repositoryStudent,repositoryTema);
+        repositoryNote = new NotaXMLRepo(filenameNota);
+        validatorTema = new TemaValidator();
+        repositoryTema  = new TemaXMLRepo(filenameTema);
+        service = new Service(repositoryStudent,validatorStudent,repositoryTema,validatorTema,repositoryNote,validatorNota);
+
+        Student student = new Student("","",-1,"");
+        try {
+            service.addStudent(student);
+            assert false;
+        }
+        catch (ValidationException e){
+            assert true;
+        }
+    }
+
+    @Test
+    public void ec5_test()
+    {
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        validatorStudent = new StudentValidator();
+        repositoryStudent = new StudentXMLRepo(filenameStudent);
+        validatorNota = new NotaValidator(repositoryStudent,repositoryTema);
+        repositoryNote = new NotaXMLRepo(filenameNota);
+        validatorTema = new TemaValidator();
+        repositoryTema  = new TemaXMLRepo(filenameTema);
+        service = new Service(repositoryStudent,validatorStudent,repositoryTema,validatorTema,repositoryNote,validatorNota);
+
+        Student student = new Student(null,null, 0,null);
+        try {
+            service.addStudent(student);
+            assert false;
+        }
+        catch (ValidationException | NullPointerException e){
+            assert true;
+        }
+    }
+
+    @Test
+    public void bva1_test()
+    {
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        validatorStudent = new StudentValidator();
+        repositoryStudent = new StudentXMLRepo(filenameStudent);
+        validatorNota = new NotaValidator(repositoryStudent,repositoryTema);
+        repositoryNote = new NotaXMLRepo(filenameNota);
+        validatorTema = new TemaValidator();
+        repositoryTema  = new TemaXMLRepo(filenameTema);
+        service = new Service(repositoryStudent,validatorStudent,repositoryTema,validatorTema,repositoryNote,validatorNota);
+
+        Student student = new Student("1","Ion",(int)(Math.pow(2,31)-1),"ion@yahoo.com");
+        service.addStudent(student);
+        assert(service.findStudent("1") != null);
+        service.deleteStudent("1");
+    }
+
+    @Test
+    public void bva2_test()
+    {
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        validatorStudent = new StudentValidator();
+        repositoryStudent = new StudentXMLRepo(filenameStudent);
+        validatorNota = new NotaValidator(repositoryStudent,repositoryTema);
+        repositoryNote = new NotaXMLRepo(filenameNota);
+        validatorTema = new TemaValidator();
+        repositoryTema  = new TemaXMLRepo(filenameTema);
+        service = new Service(repositoryStudent,validatorStudent,repositoryTema,validatorTema,repositoryNote,validatorNota);
+
+        Student student = new Student("1","Ion",(int)(Math.pow(2,31)-2),"ion@yahoo.com");
+        service.addStudent(student);
+        assert(service.findStudent("1") != null);
+        service.deleteStudent("1");
     }
 }
