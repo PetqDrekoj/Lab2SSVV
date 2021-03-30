@@ -3,6 +3,7 @@ package ssvv.example;
 import static org.junit.Assert.assertTrue;
 
 import domain.Student;
+import domain.Tema;
 import org.junit.Test;
 import repository.NotaXMLRepo;
 import repository.StudentXMLRepo;
@@ -308,5 +309,55 @@ public class AppTest
         service.addStudent(student);
         assert(service.findStudent("1") != null);
         service.deleteStudent("1");
+    }
+
+    @Test
+    public void wbt_1()
+    {
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        validatorStudent = new StudentValidator();
+        repositoryStudent = new StudentXMLRepo(filenameStudent);
+        validatorNota = new NotaValidator(repositoryStudent,repositoryTema);
+        repositoryNote = new NotaXMLRepo(filenameNota);
+        validatorTema = new TemaValidator();
+        repositoryTema  = new TemaXMLRepo(filenameTema);
+        service = new Service(repositoryStudent,validatorStudent,repositoryTema,validatorTema,repositoryNote,validatorNota);
+
+        Tema tema = new Tema("", "d", 1,1);
+        try {
+            service.addTema(tema);
+            assert false;
+        }
+        catch (ValidationException e){
+            assert true;
+        }
+    }
+
+    @Test
+    public void wbt_2()
+    {
+        String filenameStudent = "fisiere/Studenti.xml";
+        String filenameTema = "fisiere/Teme.xml";
+        String filenameNota = "fisiere/Note.xml";
+
+        validatorStudent = new StudentValidator();
+        repositoryStudent = new StudentXMLRepo(filenameStudent);
+        validatorNota = new NotaValidator(repositoryStudent,repositoryTema);
+        repositoryNote = new NotaXMLRepo(filenameNota);
+        validatorTema = new TemaValidator();
+        repositoryTema  = new TemaXMLRepo(filenameTema);
+        service = new Service(repositoryStudent,validatorStudent,repositoryTema,validatorTema,repositoryNote,validatorNota);
+
+        Tema tema = new Tema("1", "", 1,1);
+        try {
+            service.addTema(tema);
+            assert false;
+        }
+        catch (ValidationException e){
+            assert true;
+        }
     }
 }
