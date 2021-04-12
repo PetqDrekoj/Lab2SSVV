@@ -107,6 +107,8 @@ public class Service {
      * Adauga o tema noua
      * @param tema  - tema pe care o adauga
      * @return null daca s-a facut adaugarea sau tema daca aceasta exista deja
+     *
+     * ;(
      */
     public Tema addTema(Tema tema){
         temaValidator.validate(tema);
