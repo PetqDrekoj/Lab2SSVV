@@ -24,7 +24,7 @@ public class AppTestIntegration {
     private NotaValidator validatorNota;
     private TemaValidator validatorTema;
 
-    public void build(){
+    public void build() {
         String filenameStudent = "fisiere/Studenti.xml";
         String filenameTema = "fisiere/Teme.xml";
         String filenameNota = "fisiere/Note.xml";
@@ -40,9 +40,9 @@ public class AppTestIntegration {
     }
 
     @Test
-    public void test_addStudent(){
-       build();
-       Student student = new Student("1", "d", 1, "email");
+    public void test_addStudent() {
+        build();
+        Student student = new Student("1", "d", 1, "email");
         try {
             Student student1 = service.addStudent(student);
             assert (student1 == null);
@@ -53,7 +53,7 @@ public class AppTestIntegration {
     }
 
     @Test
-    public void test_addAssignment(){
+    public void test_addAssignment() {
         build();
         Tema tema = new Tema("1", "d", 1, 1);
         try {
@@ -66,12 +66,12 @@ public class AppTestIntegration {
     }
 
     @Test
-    public void test_addGrade(){
+    public void test_addGrade() {
         build();
         Nota nota = new Nota("1", "101", "101", 10, LocalDate.now());
         try {
             double good = service.addNota(nota, "good");
-            assert (good==10.0);
+            assert (good == 10.0);
             service.deleteNota("1");
         } catch (Exception e) {
             assert false;
@@ -79,7 +79,7 @@ public class AppTestIntegration {
     }
 
     @Test
-    public void test_add(){
+    public void test_add() {
         build();
         Student student = new Student("1", "d", 1, "email");
         Tema tema = new Tema("1", "d", 1, 1);
@@ -90,7 +90,7 @@ public class AppTestIntegration {
             double good = service.addNota(nota, "good");
             assert (student1 == null);
             assert (tema1 == null);
-            assert (good==10.0);
+            assert (good == 10.0);
             service.deleteNota("1");
             service.deleteTema("1");
             service.deleteStudent("1");
@@ -98,4 +98,56 @@ public class AppTestIntegration {
             assert false;
         }
     }
+
+    @Test
+    public void test_addStudentIncremental() {
+        build();
+        Student student = new Student("1", "d", 1, "email");
+        try {
+            Student student1 = service.addStudent(student);
+            assert (student1 == null);
+            service.deleteStudent("1");
+        } catch (Exception e) {
+            assert false;
+        }
+    }
+
+    @Test
+    public void test_addAssignmentIncremental() {
+        build();
+        Student student = new Student("1", "d", 1, "email");
+        Tema tema = new Tema("1", "d", 1, 1);
+        try {
+            Student student1 = service.addStudent(student);
+            Tema tema1 = service.addTema(tema);
+            assert (student1 == null);
+            assert (tema1 == null);
+            service.deleteTema("1");
+            service.deleteStudent("1");
+        } catch (Exception e) {
+            assert false;
+        }
+    }
+
+    @Test
+    public void test_addGradeIncremental() {
+        build();
+        Student student = new Student("1", "d", 1, "email");
+        Tema tema = new Tema("1", "d", 1, 1);
+        Nota nota = new Nota("1", "101", "101", 10, LocalDate.now());
+        try {
+            Student student1 = service.addStudent(student);
+            Tema tema1 = service.addTema(tema);
+            double good = service.addNota(nota, "good");
+            assert (student1 == null);
+            assert (tema1 == null);
+            assert (good == 10.0);
+            service.deleteNota("1");
+            service.deleteTema("1");
+            service.deleteStudent("1");
+        } catch (Exception e) {
+            assert false;
+        }
+    }
+
 }
